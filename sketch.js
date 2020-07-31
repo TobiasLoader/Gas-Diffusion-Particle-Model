@@ -124,7 +124,7 @@ class Point{
 				this.T -= 0.02;
 			}
 			
-			if (this.x>(boundaries[0]+boundaries[1])/2 && this.y > H-2*(H-boundaries[3])){
+			if (this.x>(boundaries[0]+boundaries[1])/2 && this.y > boundaries[2]+boundaries[3]-2*(boundaries[2])){
 				this.T += 0.02;
 			}
 		}
