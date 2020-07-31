@@ -15,7 +15,16 @@ function setup() {
 
   n = 40;
   borderMode = 1; // [0:ramp wall or 1:solid wall]
-  boundaries = [W/10, 9*W/10, H/10, H-H/10];
+  
+  if (W<600 && H<600){
+  	boundaries = [W/10, 9*W/10, H/10, H-H/10];
+  } else if (W<600 && H>600) {
+	boundaries = [W/10, 9*W/10, 600/10, 600-600/10];
+  } else if (W>600 && H<600) {
+	boundaries = [600/10, 9*600/10, H/10, H-H/10];
+  } else {
+	boundaries = [600/10, 9*600/10, 600/10, 600-600/10];
+  }
   repel = 50;
   radius = 100;
   initVel = 2;
@@ -73,13 +82,17 @@ function tempToScale(t){
 
 function draw() {
 	background(250);
+	strokeWeight(1);
+	stroke(50,50,50,100);
+	fill(240);
+	rect(boundaries[0],boundaries[2],boundaries[1]-boundaries[0],boundaries[3]-boundaries[2]);
 	processPoints();
 	if (tempPlates){
 		strokeWeight(5);
 		stroke(245, 23, 21);
-		line(W/2,(H+boundaries[3])/2,boundaries[1],(H+boundaries[3])/2);
+		line((boundaries[0]+boundaries[1])/2,boundaries[3]+boundaries[2]/2,boundaries[1],boundaries[3]+boundaries[2]/2);
 		stroke(52, 75, 217);
-		line(W/2,boundaries[2]/2,boundaries[0],boundaries[2]/2);
+		line(boundaries[0],boundaries[2]/2,(boundaries[0]+boundaries[1])/2,boundaries[2]/2);
 	}
 }
 
@@ -107,11 +120,11 @@ class Point{
 	
 	updateTemp(){
 		if (tempPlates){
-			if (this.x<W/2 && this.y < 2*boundaries[2]){
+			if (this.x<(boundaries[0]+boundaries[1])/2 && this.y < 2*boundaries[2]){
 				this.T -= 0.02;
 			}
 			
-			if (this.x>W/2 && this.y > H-2*(H-boundaries[3])){
+			if (this.x>(boundaries[0]+boundaries[1])/2 && this.y > H-2*(H-boundaries[3])){
 				this.T += 0.02;
 			}
 		}
